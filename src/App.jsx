@@ -1,5 +1,5 @@
 const App = () => {
-  return <h1 className="text-red-500">Fintrack</h1>
+  return <h1 className="text-red-400">ola mundo</h1>
 }
 
 export default App
