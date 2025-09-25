@@ -1,5 +1,7 @@
+import { Network } from 'lucide-react'
+
 const HomePage = () => {
-  return <h1>Home page</h1>
+  return <Network />
 }
 
 export default HomePage
