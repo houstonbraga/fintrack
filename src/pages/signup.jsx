@@ -1,4 +1,5 @@
 import { Link } from 'react-router'
+import { z } from 'zod'
 
 import InputPassword from '@/components/input-password'
 import { Button } from '@/components/ui/button'
@@ -13,6 +14,30 @@ import {
 import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
 
+const signUpSchema = z.object({
+  firstName: z.string().trim().min(1, { message: 'O nome é obrigatório' }),
+  lastName: z.string().trim().min(1, {
+    message: 'O sobrenome é obrigatório',
+  }),
+  email: z
+    .string()
+    .email({ message: 'O email é inválido' })
+    .trim()
+    .min(1, { message: 'O email é obrigatório' }),
+  password: z
+    .string()
+    .trim()
+    .min(8, { message: 'Senha deve conter no mínimo 8 caracteres' }),
+  passwordConfirmation: z
+    .string()
+    .trim()
+    .min(8, { message: 'Senha deve conter no mínimo 8 caracteres' }),
+  acceptTerms: z.boolean().refine((value) => value === true, {
+    message: 'Precisa aceitar os termos para criação de conta',
+  }),
+})
+console.log(signUpSchema)
+
 const SignUpPage = () => {
   return (
     <div className="relative flex h-screen w-screen items-center justify-center">
@@ -23,15 +48,26 @@ const SignUpPage = () => {
         </CardHeader>
         <CardContent>
           <form className="space-y-2">
-            <Input
-              className="bg-transparent"
-              type="text"
-              placeholder="Digite seu nome"
-            />
+            <div className="grid grid-cols-2">
+              <Input
+                className="bg-transparent"
+                type="text"
+                name="firstName"
+                placeholder="Nome"
+              />
+              <Input
+                className="bg-transparent"
+                type="text"
+                name="lastName"
+                placeholder="Sobrenome"
+              />
+            </div>
+
             <Input
               className="bg-transparent"
               type="email"
-              placeholder="Digite seu email"
+              name="email"
+              placeholder="Email"
             />
             <InputPassword className="bg-transparent" />
             <InputPassword
