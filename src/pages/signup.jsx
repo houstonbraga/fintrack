@@ -1,3 +1,5 @@
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
 import { Link } from 'react-router'
 import { z } from 'zod'
 
@@ -12,6 +14,15 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Checkbox } from '@/components/ui/checkbox'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
+import {} from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 
 const signUpSchema = z.object({
@@ -39,64 +50,153 @@ const signUpSchema = z.object({
 console.log(signUpSchema)
 
 const SignUpPage = () => {
-  return (
-    <div className="relative flex h-screen w-screen items-center justify-center">
-      <Card className="z-10 w-[450px]">
-        <CardHeader>
-          <CardTitle>Cadastre-se</CardTitle>
-          <CardDescription>Faça o cadastro para continuar</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form className="space-y-2">
-            <div className="grid grid-cols-2">
-              <Input
-                className="bg-transparent"
-                type="text"
-                name="firstName"
-                placeholder="Nome"
-              />
-              <Input
-                className="bg-transparent"
-                type="text"
-                name="lastName"
-                placeholder="Sobrenome"
-              />
-            </div>
+  const methods = useForm({
+    resolver: zodResolver(signUpSchema),
+    defaultValues: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+      passwordConfirmation: '',
+      acceptTerms: false,
+    },
+  })
 
-            <Input
-              className="bg-transparent"
-              type="email"
-              name="email"
-              placeholder="Email"
-            />
-            <InputPassword className="bg-transparent" />
-            <InputPassword
-              className="bg-transparent"
-              placeholder="Confirme sua senha"
-            />
-            <div className="flex items-center gap-2">
-              <Checkbox />
-              <p className="text-gray-600 text-muted-foreground">
-                Aceito os termos e condições
-              </p>
-            </div>
-          </form>
-        </CardContent>
-        <CardFooter>
-          <Button className="w-full text-lg" type="submit" variant="default">
-            Cadastre-se
-          </Button>
-        </CardFooter>
-        <div className="mb-4 flex items-center justify-center gap-2 text-sm">
-          <p>Já tem uma conta?</p>
-          <Link to="/login" className="font-semibold text-primary">
-            Entrar.
-          </Link>
-        </div>
-      </Card>
+  const handleSubmit = (data) => {
+    console.log(data)
+  }
+
+  return (
+    <div className="relative flex h-screen w-screen flex-col items-center justify-center gap-3">
+      <Form {...methods}>
+        <form onSubmit={methods.handleSubmit(handleSubmit)}>
+          <Card>
+            <CardHeader>
+              <CardTitle>Cadastre-se</CardTitle>
+              <CardDescription>Faça o cadastro para continuar</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-2">
+              <div className="grid grid-cols-2 space-x-2">
+                <FormField
+                  control={methods.control}
+                  name="firstName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input
+                          placeholder="Nome"
+                          {...field}
+                          className="bg-transparent"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={methods.control}
+                  name="lastName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input
+                          placeholder="Sobrenome"
+                          {...field}
+                          className="bg-transparent"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <FormField
+                control={methods.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        placeholder="Email"
+                        {...field}
+                        className="bg-transparent"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={methods.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <InputPassword className="bg-transparent" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={methods.control}
+                name="passwordConfirmation"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <InputPassword
+                        className="bg-transparent"
+                        placeholder="Digite novamente sua senha"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={methods.control}
+                name="acceptTerms"
+                render={({ field }) => {
+                  return (
+                    <FormItem className="flex flex-row items-center gap-2 space-y-0">
+                      <FormControl>
+                        <Checkbox
+                          {...field}
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                      <FormLabel
+                        className={`text-sm font-normal text-muted-foreground ${methods.formState.errors.acceptTerms && 'text-red-400'}`}
+                      >
+                        Aceito os termos de privacidade
+                      </FormLabel>
+                    </FormItem>
+                  )
+                }}
+              />
+            </CardContent>
+            <CardFooter>
+              <Button className="w-full text-lg" variant="default">
+                Cadastre-se
+              </Button>
+            </CardFooter>
+          </Card>
+        </form>
+      </Form>
+      <div className="flex items-center justify-center gap-2 text-sm">
+        <p>Já tem uma conta?</p>
+        <Link to="/login" className="font-semibold text-primary">
+          Entrar.
+        </Link>
+      </div>
 
       <svg
-        className="absolute bottom-0 left-0 right-0 opacity-50"
+        className="absolute bottom-0 left-0 right-0 -z-10 opacity-50"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 1440 320"
       >
