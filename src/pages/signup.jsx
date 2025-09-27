@@ -47,7 +47,6 @@ const signUpSchema = z.object({
     message: 'Precisa aceitar os termos para criação de conta',
   }),
 })
-console.log(signUpSchema)
 
 const SignUpPage = () => {
   const methods = useForm({
@@ -69,7 +68,10 @@ const SignUpPage = () => {
   return (
     <div className="relative flex h-screen w-screen flex-col items-center justify-center gap-3">
       <Form {...methods}>
-        <form onSubmit={methods.handleSubmit(handleSubmit)}>
+        <form
+          onSubmit={methods.handleSubmit(handleSubmit)}
+          className="w-[400px]"
+        >
           <Card>
             <CardHeader>
               <CardTitle>Cadastre-se</CardTitle>
