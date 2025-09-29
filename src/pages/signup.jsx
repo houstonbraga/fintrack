@@ -102,7 +102,7 @@ const SignUpPage = () => {
       },
     })
   }
-
+  //autentica os tokens que esta armazenado no localstorage caso o usuario ja tenha sido cadastrado
   useEffect(() => {
     const init = async () => {
       try {
