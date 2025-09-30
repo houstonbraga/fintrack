@@ -1,7 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useContext } from 'react'
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router'
+import { Link, Navigate } from 'react-router'
 import { z } from 'zod'
 
 import InputPassword from '@/components/input-password'
@@ -25,7 +24,7 @@ import {
 } from '@/components/ui/form'
 import {} from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { AuthContext } from '@/contexts/auth'
+import { useAuthContext } from '@/contexts/auth'
 
 const signUpSchema = z
   .object({
@@ -56,7 +55,7 @@ const signUpSchema = z
   })
 
 const SignUpPage = () => {
-  const { user, signup } = useContext(AuthContext)
+  const { user, signup, isInitializing } = useAuthContext()
 
   const methods = useForm({
     resolver: zodResolver(signUpSchema),
@@ -73,8 +72,10 @@ const SignUpPage = () => {
   const handleSubmit = (data) => signup(data)
   //autentica os tokens que esta armazenado no localstorage caso o usuario ja tenha sido cadastrado
 
+  if (isInitializing) return null
+
   if (user) {
-    return <h1>Ola {user.first_name}</h1>
+    return <Navigate to={'/'} />
   }
 
   return (
