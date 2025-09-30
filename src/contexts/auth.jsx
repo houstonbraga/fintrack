@@ -9,6 +9,7 @@ export const AuthContext = createContext({
   isInitializing: true,
   login: () => {},
   signup: () => {},
+  signout: () => {},
 })
 
 export const useAuthContext = () => useContext(AuthContext)
@@ -105,8 +106,15 @@ export const AuthContextProvider = ({ children }) => {
     })
   }
 
+  const signout = () => {
+    setUser(null)
+    removeTokens()
+  }
+
   return (
-    <AuthContext.Provider value={{ user, isInitializing, signup, login }}>
+    <AuthContext.Provider
+      value={{ user, isInitializing, signup, login, signout }}
+    >
       {children}
     </AuthContext.Provider>
   )
