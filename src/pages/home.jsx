@@ -13,7 +13,7 @@ const HomePage = () => {
   return (
     <>
       <h1>
-        Ola, {user.first_name} {user.last_name}
+        Ola, {user.firstName} {user.lastName}
       </h1>
       <Button onClick={signout}>Sair</Button>
     </>
