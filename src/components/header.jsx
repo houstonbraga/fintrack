@@ -50,13 +50,13 @@ const Header = () => {
             <DropdownMenuLabel>Meu perfil</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <LogOutIcon />
               <Button
                 size="small"
                 variant="ghost"
                 className="w-full justify-start"
                 onClick={signout}
               >
+                <LogOutIcon />
                 Sair
               </Button>
             </DropdownMenuItem>
