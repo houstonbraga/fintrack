@@ -1,10 +1,10 @@
 import { Navigate } from 'react-router'
 
-import { Button } from '@/components/ui/button'
+import Header from '@/components/Header'
 import { useAuthContext } from '@/contexts/auth'
 
 const HomePage = () => {
-  const { user, signout } = useAuthContext()
+  const { user } = useAuthContext()
 
   if (!user) {
     return <Navigate to={'/login'} />
@@ -12,10 +12,7 @@ const HomePage = () => {
 
   return (
     <>
-      <h1>
-        Ola, {user.firstName} {user.lastName}
-      </h1>
-      <Button onClick={signout}>Sair</Button>
+      <Header />
     </>
   )
 }
