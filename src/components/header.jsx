@@ -29,7 +29,7 @@ const Header = () => {
   }, [])
 
   return (
-    <header className="sticky flex h-[72px] items-center justify-between border-b border-b-muted bg-card px-12">
+    <header className="sticky flex h-[72px] items-center justify-between border-b border-b-muted bg-card px-8">
       <div>
         <img src={logo} alt="logo-icon" />
       </div>

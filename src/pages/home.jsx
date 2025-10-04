@@ -7,11 +7,13 @@ import { Button } from '@/components/ui/button'
 import { useAuthContext } from '@/contexts/auth'
 
 const HomePage = () => {
-  const { user } = useAuthContext()
+  const { user, isInitializing } = useAuthContext() //estados de contextos
+
+  if (isInitializing) return null //caso seja true, não aparecerá nada para o usuário
 
   if (!user) {
     return <Navigate to={'/login'} />
-  }
+  } //caso o usuário não esteja logado, irá para a tela de login
 
   return (
     <>
@@ -19,11 +21,11 @@ const HomePage = () => {
       <div className="p-8">
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-bold">Dashboard</h1>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
             <DateSelection />
             <Button className="flex items-center gap-2">
               <PlusIcon />
-              Adicionar transação
+              Nova transação
             </Button>
           </div>
         </div>
