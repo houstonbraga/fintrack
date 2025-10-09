@@ -70,4 +70,22 @@ export const UserServices = {
       email: response.data.email,
     }
   },
+
+  /**
+   *
+   * @param {Object} input
+   * @param {string} input.from
+   * @param {string} input.to
+   *
+   */
+
+  getBalance: async (input) => {
+    const queryParams = new URLSearchParams()
+    queryParams.set('from', input.from)
+    queryParams.set('to', input.to)
+    const response = await protectedApi.get(
+      `/users/me/balance?${queryParams.toString()}`
+    )
+    return response.data
+  },
 }
