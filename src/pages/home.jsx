@@ -32,7 +32,6 @@ const HomePage = () => {
         </div>
         <div className="grid grid-cols-[2fr_1fr] gap-4">
           <Balance />
-          ola mundop
         </div>
       </div>
     </>

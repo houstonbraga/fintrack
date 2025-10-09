@@ -1,12 +1,17 @@
+import { useQueryClient } from '@tanstack/react-query'
 import { addMonths, format } from 'date-fns'
 import { useEffect, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router'
+
+import { useAuthContext } from '@/contexts/auth'
 
 import { DatePickerWithRange } from './ui/date-picker-with-range'
 
 const formatDateToQueryParams = (date) => format(date, 'yyyy-MM-dd')
 
 const DateSelection = () => {
+  const { user } = useAuthContext()
+  const queryClient = useQueryClient()
   const [searchParams] = useSearchParams() //hook usado para pegar parametros URL
   const navigate = useNavigate()
   const [date, setDate] = useState({
@@ -26,7 +31,11 @@ const DateSelection = () => {
     queryParams.set('from', formatDateToQueryParams(date.from))
     queryParams.set('to', formatDateToQueryParams(date.to))
     navigate(`/?${queryParams.toString()}`) //ao passar pelos processos, navega até a url
-  }, [date, navigate]) //todos os hooks que estão dentro do useEffect precisam ir pra lista de dependências
+    queryClient.invalidateQueries({
+      //ao mudar o date-select, mudara a balança também (fará request novamente)
+      queryKey: ['balance', user.id],
+    })
+  }, [date, navigate, user.id, queryClient]) //todos os hooks que estão dentro do useEffect precisam ir pra lista de dependências
 
   //2 - preciso que ao recarregar a página, o estado da date persista
 
