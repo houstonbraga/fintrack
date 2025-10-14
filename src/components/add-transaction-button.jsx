@@ -1,12 +1,16 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import {
+  Loader2,
   PiggyBankIcon,
   PlusIcon,
   TrendingDownIcon,
   TrendingUpIcon,
 } from 'lucide-react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { NumericFormat } from 'react-number-format'
+import { toast } from 'sonner'
 import z from 'zod'
 
 import {
@@ -19,6 +23,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
+import { useAuthContext } from '@/contexts/auth'
+import { TransactionServices } from '@/services/transaction'
 
 import { Button } from './ui/button'
 import { DatePicker } from './ui/date-picker'
@@ -44,6 +50,26 @@ const formSchema = z.object({
 })
 
 const AddTransactionButton = () => {
+  const [isOpen, setIsOpen] = useState(false)
+  const queryClient = useQueryClient()
+  const { user } = useAuthContext()
+
+  const { mutateAsync: createMutate } = useMutation({
+    mutationKey: ['createTransaction'],
+    mutationFn: async (input) => {
+      const response = await TransactionServices.create(input)
+      return response
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['balance', user.id],
+      })
+    },
+    onError: () => {
+      throw new Error('Falha!')
+    },
+  })
+
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -55,12 +81,19 @@ const AddTransactionButton = () => {
     shouldUnregister: true,
   })
 
-  const onSubmit = (data) => {
-    console.log({ data })
+  const onSubmit = async (data) => {
+    try {
+      await createMutate(data)
+      setIsOpen(false)
+      toast.success('Transação criada com sucesso!')
+    } catch {
+      console.error('Falha ao adicionar transação!')
+      toast.error('Falha ao adicionar transação!')
+    }
   }
 
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button className="flex items-center gap-2">
           <PlusIcon />
@@ -174,9 +207,21 @@ const AddTransactionButton = () => {
             />
             <DialogFooter className="sm:space-x-4">
               <DialogClose className="w-full" asChild>
-                <Button variant="outline">Cancelar</Button>
+                <Button
+                  variant="outline"
+                  disabled={form.formState.isSubmitting}
+                >
+                  Cancelar
+                </Button>
               </DialogClose>
-              <Button className="w-full" type="submit">
+              <Button
+                className="w-full"
+                type="submit"
+                disabled={form.formState.isSubmitting}
+              >
+                {form.formState.isSubmitting && (
+                  <Loader2 className="mr-1 animate-spin" />
+                )}
                 Adicionar
               </Button>
             </DialogFooter>
