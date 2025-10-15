@@ -15,12 +15,12 @@ import ItemBalance from './item-balance'
 const Balance = () => {
   const { user } = useAuthContext()
   const [searchParams] = useSearchParams()
+  const from = searchParams.get('from')
+  const to = searchParams.get('to')
 
   const { data } = useQuery({
-    queryKey: ['balance', user.id],
+    queryKey: ['balance', user.id, from, to],
     queryFn: async () => {
-      const from = searchParams.get('from')
-      const to = searchParams.get('to')
       return UserServices.getBalance({ from, to })
     },
   })
