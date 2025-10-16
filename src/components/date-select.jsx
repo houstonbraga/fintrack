@@ -33,8 +33,8 @@ const DateSelection = () => {
       return defaultParams
     }
     return {
-      from: new Date(from + +'T00:00:00'),
-      to: new Date(to + +'T00:00:00'),
+      from: new Date(from + 'T00:00:00'),
+      to: new Date(to + 'T00:00:00'),
     }
   }
 
@@ -50,6 +50,7 @@ const DateSelection = () => {
     navigate(`/?${queryParams.toString()}`) //ao passar pelos processos, navega até a url
     queryClient.invalidateQueries({
       //ao mudar o date-select, mudara a balança também (fará request novamente)
+      //mudara também as datas também consequentemente
       queryKey: [
         'balance',
         user.id,
