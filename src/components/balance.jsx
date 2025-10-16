@@ -23,6 +23,8 @@ const Balance = () => {
     queryFn: async () => {
       return UserServices.getBalance({ from, to })
     },
+    staleTime: 5 * 60 * 1000, //5 minutos
+    enabled: !!from && !!to && !!user.id, //também podemos usar "Boolean(valor)"
   })
 
   return (

@@ -28,7 +28,7 @@ createRoot(document.getElementById('root')).render(
           </Routes>
         </BrowserRouter>
       </AuthContextProvider>
-      <ReactQueryDevtools />
+      <ReactQueryDevtools initialIsOpen={false} />
       <Toaster />
     </QueryClientProvider>
   </StrictMode>
