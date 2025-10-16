@@ -7,7 +7,7 @@ export const TransactionServices = {
    * @param {string} input.name - Nome da transação
    * @param {date} input.date - Data da transação - YYYY/MM/DD
    * @param {number} input.amount - Valor da transação - BRL
-   * @param {string} input.type - ['EARNING', 'EXPENSE', 'INVESTMENT']
+   * @param {string} input.type - tipo da transação ['EARNING', 'EXPENSE', 'INVESTMENT']
    */
 
   create: async (input) => {
