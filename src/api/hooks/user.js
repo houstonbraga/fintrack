@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
 
+import { UserServices } from '@/api/services/user'
 import { useAuthContext } from '@/contexts/auth'
-import { UserServices } from '@/services/user'
 
 export const getBalanceQueryKey = ({ userId, from, to }) => {
   if (!from || !to) {
@@ -13,7 +13,6 @@ export const getBalanceQueryKey = ({ userId, from, to }) => {
 //PEGA O BALANCE DO USUÁRIO AUTENTICADO, PEGANDO O FROM E TO
 export const useGetBalance = ({ from, to }) => {
   const { user } = useAuthContext()
-
   return useQuery({
     queryKey: getBalanceQueryKey({ userId: user.id, from, to }),
     queryFn: async () => {

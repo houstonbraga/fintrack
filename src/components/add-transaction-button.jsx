@@ -1,5 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
 import {
   Loader2,
   PiggyBankIcon,
@@ -13,6 +12,7 @@ import { NumericFormat } from 'react-number-format'
 import { toast } from 'sonner'
 import z from 'zod'
 
+import { useCreateTransaction } from '@/api/hooks/transaction'
 import {
   Dialog,
   DialogClose,
@@ -23,8 +23,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
-import { useAuthContext } from '@/contexts/auth'
-import { TransactionServices } from '@/services/transaction'
 
 import { Button } from './ui/button'
 import { DatePicker } from './ui/date-picker'
@@ -51,21 +49,8 @@ const formSchema = z.object({
 
 const AddTransactionButton = () => {
   const [isOpen, setIsOpen] = useState(false)
-  const queryClient = useQueryClient()
-  const { user } = useAuthContext()
 
-  const { mutateAsync: createMutate } = useMutation({
-    mutationKey: ['createTransaction'],
-    mutationFn: async (input) => {
-      const response = await TransactionServices.create(input)
-      return response
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['balance', user.id],
-      })
-    },
-  })
+  const { mutateAsync: createMutate } = useCreateTransaction()
 
   const form = useForm({
     resolver: zodResolver(formSchema),

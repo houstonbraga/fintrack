@@ -2,11 +2,11 @@ import { createContext, useContext, useEffect, useState } from 'react'
 import { toast } from 'sonner'
 
 import { useLogin, useSignup } from '@/api/hooks/user'
+import { UserServices } from '@/api/services/user.js'
 import {
   LOCAL_STORAGE_ACCESS_TOKEN,
   LOCAL_STORAGE_REFRESH_TOKEN,
 } from '@/constants/keys-tokens'
-import { UserServices } from '@/services/user.js'
 
 export const AuthContext = createContext({
   user: null,
