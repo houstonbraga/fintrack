@@ -65,9 +65,6 @@ const AddTransactionButton = () => {
         queryKey: ['balance', user.id],
       })
     },
-    onError: () => {
-      throw new Error('Falha!')
-    },
   })
 
   const form = useForm({
