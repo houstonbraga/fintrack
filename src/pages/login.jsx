@@ -1,7 +1,4 @@
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
 import { Link, Navigate } from 'react-router'
-import z from 'zod'
 
 import InputPassword from '@/components/input-password'
 import { Button } from '@/components/ui/button'
@@ -22,32 +19,12 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { useAuthContext } from '@/contexts/auth'
-
-const loginSchema = z.object({
-  email: z
-    .string()
-    .email({
-      message: 'Esse email não existe',
-    })
-    .trim()
-    .min(1, {
-      message: 'Email é obrigatório',
-    }),
-  password: z.string().trim().min(1, { message: 'A senha é obrigatória' }),
-})
+import { useLoginForm } from '@/forms/hooks/login'
 
 const LoginPage = () => {
-  const { user, login, isInitializing } = useAuthContext()
+  const { user, isInitializing } = useAuthContext()
 
-  const methods = useForm({
-    resolver: zodResolver(loginSchema),
-    defaultValues: {
-      email: '',
-      password: '',
-    },
-  })
-
-  const handleSubmit = (data) => login(data)
+  const { form, handleSubmit } = useLoginForm()
 
   if (isInitializing) return null
 
@@ -57,11 +34,8 @@ const LoginPage = () => {
 
   return (
     <div className="relative flex h-screen w-screen flex-col items-center justify-center gap-3">
-      <Form {...methods}>
-        <form
-          className="w-[400px]"
-          onSubmit={methods.handleSubmit(handleSubmit)}
-        >
+      <Form {...form}>
+        <form className="w-[400px]" onSubmit={form.handleSubmit(handleSubmit)}>
           <Card>
             <CardHeader>
               <CardTitle>Faça login</CardTitle>
@@ -69,7 +43,7 @@ const LoginPage = () => {
             </CardHeader>
             <CardContent className="space-y-2">
               <FormField
-                control={methods.control}
+                control={form.control}
                 name="email"
                 render={({ field }) => (
                   <FormItem>
@@ -86,7 +60,7 @@ const LoginPage = () => {
               />
 
               <FormField
-                control={methods.control}
+                control={form.control}
                 name="password"
                 render={({ field }) => (
                   <FormItem>
