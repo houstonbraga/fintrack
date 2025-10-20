@@ -1,7 +1,4 @@
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
 import { Link, Navigate } from 'react-router'
-import { z } from 'zod'
 
 import InputPassword from '@/components/input-password'
 import { Button } from '@/components/ui/button'
@@ -22,55 +19,14 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-import {} from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { useAuthContext } from '@/contexts/auth'
-
-const signUpSchema = z
-  .object({
-    firstName: z.string().trim().min(1, { message: 'O nome é obrigatório' }),
-    lastName: z.string().trim().min(1, {
-      message: 'O sobrenome é obrigatório',
-    }),
-    email: z
-      .string()
-      .email({ message: 'O email é inválido' })
-      .trim()
-      .min(1, { message: 'O email é obrigatório' }),
-    password: z
-      .string()
-      .trim()
-      .min(8, { message: 'Senha deve conter no mínimo 8 caracteres' }),
-    passwordConfirmation: z
-      .string()
-      .trim()
-      .min(8, { message: 'Senha deve conter no mínimo 8 caracteres' }),
-    acceptTerms: z.boolean().refine((value) => value === true, {
-      message: 'Precisa aceitar os termos para criação de conta',
-    }),
-  })
-  .refine((data) => data.password === data.passwordConfirmation, {
-    message: 'As senhas não coincidem!',
-    path: ['passwordConfirmation'],
-  })
+import { useSignupForm } from '@/forms/hooks/signup'
 
 const SignUpPage = () => {
-  const { user, signup, isInitializing } = useAuthContext()
+  const { user, isInitializing } = useAuthContext()
 
-  const methods = useForm({
-    resolver: zodResolver(signUpSchema),
-    defaultValues: {
-      firstName: '',
-      lastName: '',
-      email: '',
-      password: '',
-      passwordConfirmation: '',
-      acceptTerms: false,
-    },
-  })
-
-  const handleSubmit = (data) => signup(data)
-  //autentica os tokens que esta armazenado no localstorage caso o usuario ja tenha sido cadastrado
+  const { form, handleSubmit } = useSignupForm()
 
   if (isInitializing) return null
 
@@ -80,11 +36,8 @@ const SignUpPage = () => {
 
   return (
     <div className="relative flex h-screen w-screen flex-col items-center justify-center gap-3">
-      <Form {...methods}>
-        <form
-          onSubmit={methods.handleSubmit(handleSubmit)}
-          className="w-[400px]"
-        >
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(handleSubmit)} className="w-[400px]">
           <Card>
             <CardHeader>
               <CardTitle>Cadastre-se</CardTitle>
@@ -93,7 +46,7 @@ const SignUpPage = () => {
             <CardContent className="space-y-2">
               <div className="grid grid-cols-2 space-x-2">
                 <FormField
-                  control={methods.control}
+                  control={form.control}
                   name="firstName"
                   render={({ field }) => (
                     <FormItem>
@@ -109,7 +62,7 @@ const SignUpPage = () => {
                   )}
                 />
                 <FormField
-                  control={methods.control}
+                  control={form.control}
                   name="lastName"
                   render={({ field }) => (
                     <FormItem>
@@ -127,7 +80,7 @@ const SignUpPage = () => {
               </div>
 
               <FormField
-                control={methods.control}
+                control={form.control}
                 name="email"
                 render={({ field }) => (
                   <FormItem>
@@ -144,7 +97,7 @@ const SignUpPage = () => {
               />
 
               <FormField
-                control={methods.control}
+                control={form.control}
                 name="password"
                 render={({ field }) => (
                   <FormItem>
@@ -157,7 +110,7 @@ const SignUpPage = () => {
               />
 
               <FormField
-                control={methods.control}
+                control={form.control}
                 name="passwordConfirmation"
                 render={({ field }) => (
                   <FormItem>
@@ -173,7 +126,7 @@ const SignUpPage = () => {
                 )}
               />
               <FormField
-                control={methods.control}
+                control={form.control}
                 name="acceptTerms"
                 render={({ field }) => {
                   return (
@@ -186,7 +139,7 @@ const SignUpPage = () => {
                         />
                       </FormControl>
                       <FormLabel
-                        className={`text-sm font-normal text-muted-foreground ${methods.formState.errors.acceptTerms && 'text-red-400'}`}
+                        className={`text-sm font-normal text-muted-foreground ${form.formState.errors.acceptTerms && 'text-red-400'}`}
                       >
                         Aceito os termos de privacidade
                       </FormLabel>
