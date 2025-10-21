@@ -1,4 +1,4 @@
-import { Loader2 } from 'lucide-react'
+import { Loader2Icon } from 'lucide-react'
 import { Link, Navigate } from 'react-router'
 
 import InputPassword from '@/components/input-password'
@@ -23,14 +23,18 @@ import { useAuthContext } from '@/contexts/auth'
 import { useLoginForm } from '@/forms/hooks/user'
 
 const LoginPage = () => {
-  const { user, isInitializing } = useAuthContext()
+  const { user, login, isInitializing } = useAuthContext()
 
-  const { form, handleSubmit } = useLoginForm()
+  const { form } = useLoginForm()
 
   if (isInitializing) return null
 
   if (user) {
     return <Navigate to={'/'} />
+  }
+
+  const handleSubmit = (data) => {
+    login(data)
   }
 
   return (
@@ -84,7 +88,7 @@ const LoginPage = () => {
                 disabled={form.formState.isSubmitting}
               >
                 {form.formState.isSubmitting && (
-                  <Loader2 className="animate-spin" />
+                  <Loader2Icon className="animate-spin" />
                 )}
                 Entrar
               </Button>

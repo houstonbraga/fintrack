@@ -8,7 +8,6 @@ import { signUpSchema } from '../schemas/signup-schema'
 
 export const useLoginForm = () => {
   //LOGIN
-  const { login } = useAuthContext()
 
   const form = useForm({
     resolver: zodResolver(loginSchema),
@@ -18,11 +17,7 @@ export const useLoginForm = () => {
     },
   })
 
-  const handleSubmit = (data) => {
-    login(data)
-  }
-
-  return { form, handleSubmit }
+  return { form }
 }
 
 export const useSignupForm = () => {
