@@ -1,3 +1,4 @@
+import { Loader2 } from 'lucide-react'
 import { Link, Navigate } from 'react-router'
 
 import InputPassword from '@/components/input-password'
@@ -21,7 +22,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { useAuthContext } from '@/contexts/auth'
-import { useSignupForm } from '@/forms/hooks/signup'
+import { useSignupForm } from '@/forms/hooks/user'
 
 const SignUpPage = () => {
   const { user, isInitializing } = useAuthContext()
@@ -149,7 +150,14 @@ const SignUpPage = () => {
               />
             </CardContent>
             <CardFooter>
-              <Button className="w-full text-lg" variant="default">
+              <Button
+                className="w-full text-lg"
+                variant="default"
+                disabled={form.formState.isSubmitting}
+              >
+                {form.formState.isSubmitting && (
+                  <Loader2 className="animate-spin" />
+                )}
                 Cadastre-se
               </Button>
             </CardFooter>
