@@ -4,6 +4,8 @@ import AddTransactionButton from '@/components/add-transaction-button'
 import Balance from '@/components/balance'
 import DateSelection from '@/components/date-select'
 import Header from '@/components/Header'
+import TransactionsTable from '@/components/transactions-table'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import { useAuthContext } from '@/contexts/auth'
 
 const HomePage = () => {
@@ -18,7 +20,7 @@ const HomePage = () => {
   return (
     <>
       <Header />
-      <div className="flex flex-col space-y-6 p-8">
+      <div className="flex flex-col space-y-6 overflow-y-hidden p-8">
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-bold">Dashboard</h1>
           <div className="flex items-center gap-2">
@@ -29,6 +31,10 @@ const HomePage = () => {
         <div className="grid grid-cols-[2fr_1fr] gap-4">
           <Balance />
         </div>
+        <h1 className="text-2xl font-bold">Transações</h1>
+        <ScrollArea className="w-ful h-[250px] max-h-[450px] rounded-md border">
+          <TransactionsTable />
+        </ScrollArea>
       </div>
     </>
   )
