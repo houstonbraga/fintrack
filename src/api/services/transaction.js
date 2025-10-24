@@ -17,6 +17,13 @@ export const TransactionServices = {
     return response.data
   },
 
+  /**
+   * PEGAR TRANSAÇÕES
+   * @param {Object} input
+   * @param {string} input.from - Data inicial da transação
+   * @param {date} input.to - Data limite da transação
+   */
+
   getAll: async (input) => {
     const query = queryString.stringify({ from: input.from, to: input.to })
     const response = await protectedApi.get(`/transactions/me?${query}`)
