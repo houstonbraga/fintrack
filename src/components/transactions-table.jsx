@@ -1,3 +1,5 @@
+import { format } from 'date-fns'
+import { ptBR } from 'date-fns/locale/pt-BR'
 import { useSearchParams } from 'react-router'
 
 import { useGetAllTransactions } from '@/api/hooks/transaction'
@@ -16,6 +18,11 @@ const columns = [
   {
     accessorKey: 'date',
     header: 'Data',
+    cell: ({ row: { original: transaction } }) => {
+      return format(new Date(transaction.date), "dd 'de' MMMM 'de' yyyy", {
+        locale: ptBR,
+      })
+    },
   },
   {
     accessorKey: 'amount',
@@ -23,7 +30,7 @@ const columns = [
   },
   {
     accessorKey: 'actions',
-    header: 'Ações',
+    header: 'AÇÕES',
   },
 ]
 
@@ -31,7 +38,6 @@ const TransactionsTable = () => {
   const [searchParams] = useSearchParams()
   const from = searchParams.get('from')
   const to = searchParams.get('to')
-
   const { data: transactions } = useGetAllTransactions({ from, to })
   if (!transactions) return null
 

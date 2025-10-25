@@ -35,9 +35,7 @@ export const useGetAllTransactions = ({ from, to }) => {
   const { user } = useAuthContext()
   return useQuery({
     queryKey: getTransactionsQueryKey({ userId: user.id, from, to }),
-    queryFn: async () => {
-      return TransactionServices.getAll({ from, to })
-    },
+    queryFn: async () => await TransactionServices.getAll({ from, to }),
     enabled: !!from && !!to && !!user.id,
   })
 }
