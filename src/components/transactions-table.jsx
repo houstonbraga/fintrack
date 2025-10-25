@@ -3,6 +3,7 @@ import { ptBR } from 'date-fns/locale/pt-BR'
 import { useSearchParams } from 'react-router'
 
 import { useGetAllTransactions } from '@/api/hooks/transaction'
+import { getCurrencyFormat } from '@/helpers/currencyFormat'
 
 import { DataTable } from './ui/data-table'
 
@@ -27,6 +28,9 @@ const columns = [
   {
     accessorKey: 'amount',
     header: 'Valor',
+    cell: ({ row: { original: transaction } }) => {
+      return getCurrencyFormat(transaction.amount)
+    },
   },
   {
     accessorKey: 'actions',
