@@ -5,7 +5,9 @@ import { useSearchParams } from 'react-router'
 import { useGetAllTransactions } from '@/api/hooks/transaction'
 import { getCurrencyFormat } from '@/helpers/currencyFormat'
 
+import TransactionType from './transaction-type'
 import { DataTable } from './ui/data-table'
+import { ScrollArea } from './ui/scroll-area'
 
 const columns = [
   {
@@ -15,6 +17,9 @@ const columns = [
   {
     accessorKey: 'type',
     header: 'Tipo',
+    cell: ({ row: { original: transaction } }) => {
+      return <TransactionType variant={transaction.type.toLowerCase()} />
+    },
   },
   {
     accessorKey: 'date',
@@ -45,7 +50,14 @@ const TransactionsTable = () => {
   const { data: transactions } = useGetAllTransactions({ from, to })
   if (!transactions) return null
 
-  return <DataTable columns={columns} data={transactions} />
+  return (
+    <div>
+      <h1 className="text-4xl font-semibold">Transações</h1>
+      <ScrollArea className="w-ful h-[250px] max-h-[450px] rounded-md border">
+        <DataTable columns={columns} data={transactions} />
+      </ScrollArea>
+    </div>
+  )
 }
 
 export default TransactionsTable
