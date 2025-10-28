@@ -1,11 +1,13 @@
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale/pt-BR'
+import { ExternalLink } from 'lucide-react'
 import { useSearchParams } from 'react-router'
 
 import { useGetAllTransactions } from '@/api/hooks/transaction'
 import { getCurrencyFormat } from '@/helpers/currencyFormat'
 
 import TransactionType from './transaction-type'
+import { Button } from './ui/button'
 import { DataTable } from './ui/data-table'
 import { ScrollArea } from './ui/scroll-area'
 
@@ -40,6 +42,13 @@ const columns = [
   {
     accessorKey: 'actions',
     header: 'AÇÕES',
+    cell: () => {
+      return (
+        <Button variant="ghost" size="icon">
+          <ExternalLink />
+        </Button>
+      )
+    },
   },
 ]
 
@@ -51,9 +60,9 @@ const TransactionsTable = () => {
   if (!transactions) return null
 
   return (
-    <div>
-      <h1 className="text-4xl font-semibold">Transações</h1>
-      <ScrollArea className="w-ful h-[250px] max-h-[450px] rounded-md border">
+    <div className="flex h-full min-h-0 flex-col space-y-6">
+      <h1 className="text-2xl font-bold">Transações</h1>
+      <ScrollArea className="min-h-0 w-full flex-1 rounded-md border pb-4">
         <DataTable columns={columns} data={transactions} />
       </ScrollArea>
     </div>

@@ -19,7 +19,7 @@ const HomePage = () => {
   return (
     <>
       <Header />
-      <div className="flex flex-col space-y-6 overflow-y-hidden p-8">
+      <div className="flex h-[calc(100vh-96px)] flex-col space-y-6 overflow-hidden p-8">
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-bold">Dashboard</h1>
           <div className="flex items-center gap-2">
