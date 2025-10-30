@@ -39,3 +39,22 @@ export const useGetAllTransactions = ({ from, to }) => {
     enabled: !!from && !!to && !!user.id,
   })
 }
+
+export const upadateTransactionMutationKey = ['updateTransaction']
+
+export const useUpdateTransaction = () => {
+  const { user } = useAuthContext()
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationKey: upadateTransactionMutationKey,
+    mutationFn: async (input) => await TransactionServices.update(input),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: getBalanceQueryKey({ userId: user.id }),
+      })
+      queryClient.invalidateQueries({
+        queryKey: getTransactionsQueryKey({ userId: user.id }),
+      })
+    },
+  })
+}
