@@ -1,4 +1,4 @@
-import { getCurrencyFormat } from '@/helpers/currencyFormat'
+import { getCurrencyFormat } from '@/helpers/currency-format'
 
 import { Card, CardContent } from './ui/card'
 

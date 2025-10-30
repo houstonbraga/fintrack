@@ -3,7 +3,7 @@ import { ptBR } from 'date-fns/locale/pt-BR'
 import { useSearchParams } from 'react-router'
 
 import { useGetAllTransactions } from '@/api/hooks/transaction'
-import { getCurrencyFormat } from '@/helpers/currencyFormat'
+import { getCurrencyFormat } from '@/helpers/currency-format'
 
 import EditTransactionButton from './edit-transaction-button'
 import TransactionType from './transaction-type'
