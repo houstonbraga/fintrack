@@ -4,13 +4,12 @@ import { Button } from './ui/button'
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from './ui/sheet'
 
-const EditTransactionButton = () => {
+const EditTransactionButton = ({ transaction }) => {
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -20,11 +19,8 @@ const EditTransactionButton = () => {
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>Are you absolutely sure?</SheetTitle>
-          <SheetDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
-          </SheetDescription>
+          <SheetTitle>Editar transação</SheetTitle>
+          {transaction.name}
         </SheetHeader>
       </SheetContent>
     </Sheet>
