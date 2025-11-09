@@ -6,7 +6,7 @@ import { useGetAllTransactions } from '@/api/hooks/transaction'
 import { getCurrencyFormat } from '@/helpers/currency-format'
 
 import EditTransactionButton from './edit-transaction-button'
-import TransactionType from './transaction-type'
+import TransactionTypeBadge from './transaction-type-bagde'
 import { DataTable } from './ui/data-table'
 import { ScrollArea } from './ui/scroll-area'
 
@@ -19,7 +19,7 @@ const columns = [
     accessorKey: 'type',
     header: 'Tipo',
     cell: ({ row: { original: transaction } }) => {
-      return <TransactionType variant={transaction.type.toLowerCase()} />
+      return <TransactionTypeBadge variant={transaction.type.toLowerCase()} />
     },
   },
   {

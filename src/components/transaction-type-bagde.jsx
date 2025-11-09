@@ -27,7 +27,7 @@ const getText = (variant) => {
   }
 } //variantes de textos
 
-const TransactionType = ({ variant }) => {
+const TransactionTypeBadge = ({ variant }) => {
   return (
     <div className={Variants({ variant })}>
       <CircleIcon size={10} className="fill-inherit" />
@@ -36,4 +36,4 @@ const TransactionType = ({ variant }) => {
   )
 }
 
-export default TransactionType
+export default TransactionTypeBadge

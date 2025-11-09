@@ -13,7 +13,12 @@ export const TransactionServices = {
    */
 
   create: async (input) => {
-    const response = await protectedApi.post('/transactions/me', input)
+    const response = await protectedApi.post('/transactions/me', {
+      name: input.name,
+      date: input.date,
+      amount: input.amount,
+      type: input.type,
+    })
     return response.data
   },
 
@@ -26,12 +31,7 @@ export const TransactionServices = {
 
   getAll: async (input) => {
     const query = queryString.stringify({ from: input.from, to: input.to })
-    const response = await protectedApi.get(`/transactions/me?${query}`, {
-      name: input.name,
-      amount: input.amout,
-      date: input.date,
-      type: input.type,
-    })
+    const response = await protectedApi.get(`/transactions/me?${query}`)
     return response.data
   },
 
@@ -46,7 +46,7 @@ export const TransactionServices = {
    */
 
   update: async (input) => {
-    const response = await protectedApi.patch(`/transactions/me?${input.id}`, {
+    const response = await protectedApi.patch(`/transactions/me/${input.id}`, {
       name: input.name,
       amount: input.amount,
       date: input.date,

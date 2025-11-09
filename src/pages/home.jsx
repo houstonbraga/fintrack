@@ -29,6 +29,7 @@ const HomePage = () => {
         </div>
         <div className="grid grid-cols-[2fr_1fr] gap-4">
           <Balance />
+          {/* Colocar aqui o Pie Chart */}
         </div>
         <TransactionsTable />
       </div>

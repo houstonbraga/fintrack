@@ -19,7 +19,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
-import { useFormCreateTransaction } from '@/forms/hooks/transaction'
+import { useCreateTransactionForm } from '@/forms/hooks/transaction'
 
 import { Button } from './ui/button'
 import { DatePicker } from './ui/date-picker'
@@ -35,7 +35,7 @@ import { Input } from './ui/input'
 
 const AddTransactionButton = () => {
   const [isOpen, setIsOpen] = useState(false)
-  const { form, onSubmit } = useFormCreateTransaction({
+  const { form, onSubmit } = useCreateTransactionForm({
     onSuccess: () => {
       setIsOpen(false)
       toast.success('Transação criada com sucesso!')
