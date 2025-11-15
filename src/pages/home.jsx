@@ -2,6 +2,7 @@ import { Navigate } from 'react-router'
 
 import AddTransactionButton from '@/components/add-transaction-button'
 import Balance from '@/components/balance'
+import { ChartPieLegend } from '@/components/chart-pie-legend'
 import DateSelection from '@/components/date-select'
 import Header from '@/components/Header'
 import TransactionsTable from '@/components/transactions-table'
@@ -30,6 +31,8 @@ const HomePage = () => {
         <div className="grid grid-cols-[2fr_1fr] gap-4">
           <Balance />
           {/* Colocar aqui o Pie Chart */}
+
+          <ChartPieLegend />
         </div>
         <TransactionsTable />
       </div>

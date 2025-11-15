@@ -16,7 +16,8 @@ import {
 } from '@/components/ui/table'
 
 export function DataTable({ columns, data }) {
-  const [sorting, setSorting] = useState([])
+  // Ordena por padrão pela coluna de data (desc: último em cima)
+  const [sorting, setSorting] = useState([{ id: 'date', desc: true }])
   const table = useReactTable({
     data,
     columns,
