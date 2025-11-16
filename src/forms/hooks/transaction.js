@@ -19,7 +19,7 @@ export const useCreateTransactionForm = ({ onSuccess, onError }) => {
     resolver: zodResolver(createTransactionFormSchema),
     defaultValues: {
       name: '',
-      amount: 50,
+      amount: 0,
       date: new Date(),
       type: 'EARNING',
     },
